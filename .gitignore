@@ -1,0 +1,28 @@
+# Nuxt
+.output
+.data
+.nuxt
+.nitro
+.cache
+dist
+
+# Dependencies
+node_modules
+
+# Logs
+logs
+*.log
+
+# Editors and OS
+.DS_Store
+.idea
+.fleet
+
+# Env files
+.env
+.env.*
+!.env.example
+
+# Personal agent settings
+.claude/settings.local.json
+CLAUDE.local.md

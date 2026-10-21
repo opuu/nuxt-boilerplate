@@ -1,0 +1,22 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    groups:
+      nuxt:
+        patterns: ['nuxt', '@nuxt/*', 'vue', 'vue-router', '@vue/*', 'pinia', '@pinia/*']
+      lint:
+        patterns: ['@biomejs/*', 'stylelint*', 'postcss-html']
+      test:
+        patterns: ['vitest', 'happy-dom']
+    ignore:
+      # vue-tsc does not support TypeScript 7 yet.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

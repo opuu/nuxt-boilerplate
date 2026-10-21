@@ -1,0 +1,57 @@
+@use '../abstract' as *;
+
+html {
+  font-family: o-font(sans);
+  font-size: 100%;
+  line-height: o-line-height(base);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: o-font-weight(semibold);
+  line-height: o-line-height(tight);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: o-font-size(display);
+  letter-spacing: -0.03em;
+}
+
+h2 {
+  font-size: o-font-size(xl);
+}
+
+h3 {
+  font-size: o-font-size(lg);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: o-color(primary);
+  text-decoration-color: o-color(primary, 0.4);
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    text-decoration-color: currentcolor;
+  }
+}
+
+code,
+kbd,
+pre {
+  font-family: o-font(mono);
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  padding: 0.1em 0.35em;
+  background-color: o-color(text, 0.08);
+  border-radius: o-radius(sm);
+}

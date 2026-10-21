@@ -1,0 +1,116 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:math';
+@use 'sass:meta';
+@use 'variables' as *;
+@use 'tokens' as *;
+
+$_color-tokens: map.keys(map.get($o-themes, $o-default-theme));
+
+@function _get($map, $key, $label) {
+  @if not map.has-key($map, $key) {
+    @error 'Unknown #{$label} `#{$key}`. Expected one of: #{map.keys($map)}';
+  }
+
+  @return map.get($map, $key);
+}
+
+// Accepts 0–1 (`0.8`) or a percentage (`80%`).
+@function _percent($amount) {
+  @if meta.type-of($amount) != 'number' {
+    @error 'Expected a number, got `#{$amount}`.';
+  }
+
+  @if math.unit($amount) == '%' {
+    @return $amount;
+  }
+
+  @if math.is-unitless($amount) and $amount >= 0 and $amount <= 1 {
+    @return math.percentage($amount);
+  }
+
+  @error 'Expected 0–1 or a percentage, got `#{$amount}`.';
+}
+
+// Token names become `var(--o-*)`. Colour keywords such as `white` pass through.
+@function _color-ref($color) {
+  @if meta.type-of($color) == 'string' and list.index($_color-tokens, $color) {
+    @return var(--o-#{$color});
+  }
+
+  @if meta.type-of($color) == 'string' {
+    @error 'Unknown color token `#{$color}`. Expected one of: #{$_color-tokens}';
+  }
+
+  @return $color;
+}
+
+/// o-color(primary)      → var(--o-primary)
+/// o-color(primary, 0.8) → color-mix(in srgb, var(--o-primary) 80%, transparent)
+@function o-color($token, $alpha: 1) {
+  $color: _color-ref($token);
+  $pct: _percent($alpha);
+
+  @if $pct == 100% {
+    @return $color;
+  }
+
+  // Mixing with `transparent` is premultiplied, so the colour space does not
+  // affect the hue here. sRGB is the cheapest to compute.
+  @return color-mix(in srgb, #{$color} #{$pct}, transparent);
+}
+
+/// o-mix(primary, on-primary, 14%) → color-mix(in oklab, var(--o-primary), var(--o-on-primary) 14%)
+@function o-mix($token, $with, $amount: 50%) {
+  @return color-mix(in #{$o-mix-space}, #{_color-ref($token)}, #{_color-ref($with)} #{_percent($amount)});
+}
+
+@function o-tint($token, $amount) {
+  @return o-mix($token, white, $amount);
+}
+
+@function o-shade($token, $amount) {
+  @return o-mix($token, black, $amount);
+}
+
+@function o-space($key) {
+  @return _get($o-space, $key, 'space');
+}
+
+@function o-radius($key) {
+  @return _get($o-radius, $key, 'radius');
+}
+
+@function o-font($key) {
+  @return _get($o-font-family, $key, 'font family');
+}
+
+@function o-font-size($key) {
+  @return _get($o-font-size, $key, 'font size');
+}
+
+@function o-font-weight($key) {
+  @return _get($o-font-weight, $key, 'font weight');
+}
+
+@function o-line-height($key) {
+  @return _get($o-line-height, $key, 'line height');
+}
+
+@function o-duration($key) {
+  @return _get($o-duration, $key, 'duration');
+}
+
+@function o-z($key) {
+  @return _get($o-z-index, $key, 'z-index');
+}
+
+@function o-shadow($key) {
+  $layers: ();
+
+  @each $geometry, $alpha in _get($o-shadow, $key, 'shadow') {
+    $layers: list.append($layers, #{$geometry} o-color(shadow, $alpha), $separator: comma);
+  }
+
+  @return $layers;
+}

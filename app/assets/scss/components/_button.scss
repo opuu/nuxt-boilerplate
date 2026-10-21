@@ -1,0 +1,68 @@
+// Global block, so it works on <button>, <a> and <NuxtLink> without a wrapper component.
+// Usage: <button class="o-button o-button--primary o-button--sm">
+
+@use '../abstract' as *;
+
+.o-button {
+  display: inline-flex;
+  gap: o-space(2);
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: o-space(2) o-space(4);
+  font-size: o-font-size(sm);
+  font-weight: o-font-weight(medium);
+  line-height: 1;
+  color: o-color(text);
+  white-space: nowrap;
+  text-decoration: none;
+  background-color: o-color(surface);
+  border: 1px solid o-color(border);
+  border-radius: o-radius(md);
+
+  @include motion-safe {
+    transition:
+      background-color o-duration(fast) $o-easing,
+      border-color o-duration(fast) $o-easing,
+      transform o-duration(fast) $o-easing;
+  }
+
+  &:hover {
+    background-color: o-mix(surface, text, 6%);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @include m(primary) {
+    color: o-color(on-primary);
+    background-color: o-color(primary);
+    border-color: transparent;
+
+    &:hover {
+      // Mixing towards on-primary lightens a dark primary and darkens a light one.
+      background-color: o-mix(primary, on-primary, 14%);
+    }
+  }
+
+  @include m(ghost) {
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      background-color: o-color(text, 0.08);
+    }
+  }
+
+  @include m(sm) {
+    min-height: 2rem;
+    padding: o-space(1) o-space(3);
+    font-size: o-font-size(xs);
+  }
+}

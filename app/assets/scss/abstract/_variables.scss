@@ -1,0 +1,29 @@
+// Compile-time constants. Anything that should change at runtime belongs in
+// $o-themes (see _tokens.scss), which is emitted as custom properties.
+
+$o-breakpoints: (
+  sm: 640px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+$o-z-index: (
+  base: 0,
+  raised: 10,
+  sticky: 100,
+  overlay: 1000,
+);
+
+$o-duration: (
+  fast: 120ms,
+  base: 200ms,
+  slow: 320ms,
+);
+
+$o-easing: cubic-bezier(0.2, 0, 0, 1);
+
+// OKLab keeps perceived lightness even, so a 12% mix looks equally strong for every hue.
+$o-mix-space: oklab;
+
+$o-container-max: 72rem;

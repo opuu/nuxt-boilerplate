@@ -1,0 +1,58 @@
+@use '../abstract' as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  min-height: 100dvh;
+  color: o-color(text);
+  background-color: o-color(bg);
+
+  @include motion-safe {
+    transition:
+      background-color o-duration(base) $o-easing,
+      color o-duration(base) $o-easing;
+  }
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  @include focus-ring;
+}
+
+::selection {
+  color: o-color(on-primary);
+  background-color: o-color(primary, 0.9);
+}

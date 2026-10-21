@@ -1,0 +1,93 @@
+// Colour palettes, one per theme. base/_root.scss turns each entry into a
+// `--o-<name>` custom property. Every theme must define the same keys, and
+// the list must match COLOR_TOKENS in app/utils/theme.ts.
+$o-themes: (
+  dark: (
+    bg: rgb(13 17 22),
+    surface: rgb(21 27 34),
+    surface-sunken: rgb(9 12 16),
+    border: rgb(43 52 63),
+    text: rgb(230 235 240),
+    text-muted: rgb(146 157 170),
+    primary: rgb(148 178 212),
+    on-primary: rgb(13 17 22),
+    success: rgb(74 196 132),
+    warning: rgb(240 178 72),
+    danger: rgb(240 104 104),
+    shadow: rgb(0 0 0),
+  ),
+  light: (
+    bg: rgb(246 247 249),
+    surface: rgb(255 255 255),
+    surface-sunken: rgb(238 240 243),
+    border: rgb(217 222 228),
+    text: rgb(23 34 45),
+    text-muted: rgb(91 102 114),
+    primary: rgb(23 34 45),
+    on-primary: rgb(255 255 255),
+    success: rgb(22 128 76),
+    warning: rgb(176 106 0),
+    danger: rgb(196 43 43),
+    shadow: rgb(15 23 32),
+  ),
+);
+
+$o-default-theme: dark;
+
+$o-space: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 0.75rem,
+  4: 1rem,
+  5: 1.25rem,
+  6: 1.5rem,
+  8: 2rem,
+  10: 2.5rem,
+  12: 3rem,
+  16: 4rem,
+);
+
+$o-radius: (
+  sm: 6px,
+  md: 10px,
+  lg: 16px,
+  pill: 999px,
+);
+
+$o-font-family: (
+  sans: (ui-sans-serif, system-ui, -apple-system, 'Segoe UI', roboto, 'Helvetica Neue', arial, sans-serif),
+  mono: (ui-monospace, sfmono-regular, menlo, consolas, 'Liberation Mono', monospace),
+);
+
+// Keys must not start with a digit: Sass reads `2xl` as the number 2 with unit `xl`.
+$o-font-size: (
+  xs: 0.75rem,
+  sm: 0.875rem,
+  md: 1rem,
+  lg: 1.125rem,
+  xl: 1.375rem,
+  xxl: 1.75rem,
+  display: clamp(2rem, 1.4rem + 2.4vw, 3rem),
+);
+
+$o-font-weight: (
+  regular: 400,
+  medium: 500,
+  semibold: 600,
+  bold: 700,
+);
+
+$o-line-height: (
+  tight: 1.2,
+  snug: 1.4,
+  base: 1.6,
+);
+
+// Each layer is (geometry, alpha of the `shadow` token).
+// The trailing comma on `sm` keeps a single layer from collapsing into a flat list.
+$o-shadow: (
+  sm: ((0 1px 2px, 0.08),),
+  md: ((0 1px 2px, 0.06), (0 4px 12px, 0.08)),
+  lg: ((0 2px 4px, 0.06), (0 12px 32px, 0.14)),
+);

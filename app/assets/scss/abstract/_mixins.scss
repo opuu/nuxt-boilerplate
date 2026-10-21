@@ -1,0 +1,66 @@
+@use 'sass:map';
+@use 'variables' as *;
+@use 'functions' as *;
+
+/// .block { @include e(title) {} } → .block__title
+@mixin e($element) {
+  &__#{$element} {
+    @content;
+  }
+}
+
+/// .block { @include m(primary) {} } → .block--primary
+@mixin m($modifier) {
+  &--#{$modifier} {
+    @content;
+  }
+}
+
+/// Styles an element from a modifier on its block:
+/// .card__title { @include when(card, primary) {} } → .card--primary .card__title
+/// The block name is passed explicitly because it can't be reliably read from `&`.
+@mixin when($block, $modifier) {
+  .#{$block}--#{$modifier} & {
+    @content;
+  }
+}
+
+@mixin bp-up($name) {
+  @if not map.has-key($o-breakpoints, $name) {
+    @error 'Unknown breakpoint `#{$name}`. Expected one of: #{map.keys($o-breakpoints)}';
+  }
+
+  @media (min-width: map.get($o-breakpoints, $name)) {
+    @content;
+  }
+}
+
+/// Last resort for theme-specific styles. Prefer a token that already differs per theme.
+@mixin theme($mode) {
+  [data-theme='#{$mode}'] & {
+    @content;
+  }
+}
+
+@mixin focus-ring($token: primary) {
+  outline: 2px solid o-color($token);
+  outline-offset: 2px;
+}
+
+@mixin motion-safe {
+  @media (prefers-reduced-motion: no-preference) {
+    @content;
+  }
+}
+
+@mixin visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}

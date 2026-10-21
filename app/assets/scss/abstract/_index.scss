@@ -1,0 +1,6 @@
+// Injected into every <style lang="scss"> (see nuxt.config.ts).
+// Nothing forwarded here may output CSS, or it would be duplicated per component.
+@forward 'variables';
+@forward 'tokens';
+@forward 'functions';
+@forward 'mixins';

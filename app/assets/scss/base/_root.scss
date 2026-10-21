@@ -1,0 +1,35 @@
+// Emits `--o-<token>` custom properties for each theme in $o-themes.
+// The theme store can override single tokens with an inline style on <html>.
+
+@use 'sass:map';
+@use '../abstract' as *;
+
+$_reference-keys: map.keys(map.get($o-themes, $o-default-theme));
+
+@mixin _theme-vars($name) {
+  $palette: map.get($o-themes, $name);
+
+  @if map.keys($palette) != $_reference-keys {
+    @error 'Theme `#{$name}` must define exactly these tokens, in order: #{$_reference-keys}';
+  }
+
+  color-scheme: $name;
+
+  @each $token, $value in $palette {
+    --o-#{$token}: #{$value};
+  }
+}
+
+// `:root` covers the first paint before `data-theme` is set.
+:root,
+[data-theme='#{$o-default-theme}'] {
+  @include _theme-vars($o-default-theme);
+}
+
+@each $name, $_ in $o-themes {
+  @if $name != $o-default-theme {
+    [data-theme='#{$name}'] {
+      @include _theme-vars($name);
+    }
+  }
+}
